@@ -4,10 +4,10 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pandas = "*"
-streamlit = "*"
-vanna = "*"
-pysqlite3 = "*"
+pandas = "2.2.0"
+streamlit = "1.31.0"
+vanna = "0.0.38"
+pysqlite3 = "0.5.2"
 
 [dev-packages]
 
