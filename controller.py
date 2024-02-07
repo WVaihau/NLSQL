@@ -2,11 +2,20 @@ import model as md
 import pandas as pd
 import streamlit as st
 import vanna as vn
+import sqlite3
 
+@st.cache_resource(show_spinner="Getting sqlite connexion..")
+def get_db_conn():
+    db_connexion = sqlite3.connect(
+        st.secrets.sqlite.file_name, check_same_thread=False
+    )
+    return db_connexion
+
+@st.cache_data(show_spinner="Running sql query..")
 def run_sql(sql: str) -> pd.DataFrame:
     """Take in SQL query as string and return DataFrame."""
-    conn = md.db_connexion
-    st.toast('Connexion SQLite [OK]')
+
+    conn = get_db_conn()
 
     df = pd.read_sql_query(
         sql,
@@ -23,6 +32,12 @@ def setup_agent():
     vn.run_sql_is_set = True
 
     st.toast('Vanna Agent [OK]')
+
+
+def setup():
+    """Setup variables"""
+    st.session_state["my_question"] = None
+    setup_agent()
 
 
 def read_readme_file():

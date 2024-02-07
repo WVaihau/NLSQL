@@ -1,12 +1,13 @@
-import sqlite3
 import streamlit as st
 
 
 readme = "./README.md"
 
-db_connexion = sqlite3.connect(
-    st.secrets.sqlite.file_name
-)
+default_questions = [
+    "How many messages were sent by each contact?",
+    "Show the content of the table messages",
+    "How many messages did John Doe received ?"
+]
 
 ddl_tab = {
     "contacts" : """

@@ -1,8 +1,7 @@
 import streamlit as st
-import model as md
+import controller as ctrl
 import pandas as pd
-
-vn = st.session_state["vn"]
+import vanna as vn
 
 "# Configuration"
 
@@ -11,7 +10,7 @@ vn = st.session_state["vn"]
 f"Model: **{st.secrets.vanna.model}**"
 
 "Training data:"
-train_data = st.session_state["vn"].get_training_data()
+train_data = vn.get_training_data()
 st.write(
     train_data[train_data["training_data_type"]=="ddl"][
         ["id",
@@ -21,11 +20,15 @@ st.write(
 )
 
 "## SQLite"
-tables = ["Contacts", "Messages"]
+st.write(
+    ctrl.run_sql(
+        "SELECT name FROM sqlite_master;"
+    )
+)
 
+tables = ["Contacts", "Messages"]
 for table in tables:
     f"### Table {table}"
-    st.write(pd.read_sql_query(
-        f"SELECT * FROM {table}",
-        md.db_connexion
+    st.write(ctrl.run_sql(
+        f"SELECT * FROM {table}"
     ))
